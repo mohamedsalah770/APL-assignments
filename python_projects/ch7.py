@@ -60,21 +60,22 @@ connect.close()
 from sqlalchemy import create_engine, Column, Integer, String, Float
 from sqlalchemy.orm import declarative_base, sessionmaker
 Base = declarative_base()
-class Student(Base):
-    __tablename__ = "students"
+class Book(Base):
+    tablename = "Books"
     id = Column(Integer, primary_key=True)
-    name = Column(String(100))
-    grade = Column(Float)
-    def __repr__(self):
-        return f"Student(id={self.id}, name='{self.name}', grade={self.grade})"
+    title = Column(String(300))
+    author = Column(String(300))
+    def repr(self):
+        return f"Book (id={self.id}, title='{self.title}', and author={self.author})"
 engine = create_engine("mysql+mysqlconnector://root:your_password@localhost/school")
 Base.metadata.create_all(engine)
 Session = sessionmaker(bind=engine)
 session = Session()
-student1 = Student(name="Mohamed", grade=88.5)
-student2 = Student(name="ziad", grade=91.2)
-session.add_all([student1, student2])
+book1 = Book(title="Python basics", author='Guido')
+book2 = Book(title="AI with python", author='Mohamed')
+session.add_all([book1, book2])
 session.commit()
-students = session.query(Student).all()
-for s in students:
-    print(s)
+books = session.query(Book).all()
+for b in books:
+    print(b)
+
